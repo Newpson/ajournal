@@ -1,0 +1,4 @@
+build/*
+*.dex
+*.apk
+R.java

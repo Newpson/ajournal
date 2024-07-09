@@ -1,0 +1,4 @@
+<resources>
+	<!-- 056a:037a Wacom Co., Ltd CTL-472 [One by Wacom (S)] -->
+	<usb-device vendor-id="1386" product-id="890" sensitivity="2048" />
+</resources>
