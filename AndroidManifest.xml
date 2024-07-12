@@ -3,7 +3,7 @@
 	package="newpson.ajournal">
 
 	<uses-sdk android:minSdkVersion="12" />
-	<uses-sdk android:targetSdkVersion="21" />
+	<uses-sdk android:targetSdkVersion="28" />
 	<uses-permission android:name="android.permission.USB_PERMISSION" />
 	<uses-feature android:name="android.hardware.usb.host" />
 	<uses-feature

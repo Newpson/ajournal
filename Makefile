@@ -2,7 +2,7 @@ SRC := src
 BUILD ?= build
 RES := res
 ASSETS := assets
-ANDROID ?= /opt/android-tools/sdk/platforms/android-21/android.jar
+ANDROID ?= /opt/android-tools/sdk/platforms/android-28/android.jar
 KEYS ?= $(HOME)/.android/$(USER).keystore
 
 BUILD_TOOLS ?= /opt/android-tools/sdk/build-tools/25.0.0
