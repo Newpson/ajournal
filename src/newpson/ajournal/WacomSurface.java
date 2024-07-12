@@ -21,17 +21,12 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
-/* @WARN OpenGL ES 3.0 is required because of GL_PRIMITIVE_RESTART_FIXED_INDEX */
 public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Renderer, GLSurfaceView.EGLConfigChooser
 {
 	// public static final int MAX_MEMORY_RATE = 65536; /* 65 KB too few because of high stroke resolution */ 
-	public static final int MAX_MEMORY_RATE = 1572864; /* 1.5 MB is OK */
-	/* FIXME constants everywhere... */
-	public static final float WACOM_WIDTH = 15200f;
-	public static final float WACOM_HEIGHT = 9500f;
-	public static final float WACOM_SENSITIVITY = 2048f;
-	private boolean showCursor = true;
 	// public static final int MAX_MEMORY_RATE = 33554432; /* 32 MB too many (laggy draw) */
+	public static final int MAX_MEMORY_RATE = 1572864; /* 1.5 MB is OK */
+	private boolean showCursor = true;
 
 	/**
 	 * sv_ - vertex shader
@@ -61,9 +56,9 @@ public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Rendere
 	FloatBuffer cursq; /* cursor square */
 	private int bufi = 0;
 	private int vertc = 0;
-	
-    public WacomSurface(Context context, AttributeSet attrs)
-    {
+
+	public WacomSurface(Context context, AttributeSet attrs)
+	{
 		super(context, attrs);
 
 		setEGLConfigChooser(this);
@@ -73,60 +68,68 @@ public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Rendere
 
 		update = FloatBuffer.allocate(4*2);
 		cursq = FloatBuffer.allocate(2*4);
-    }
+	}
 
 	public int getMemoryUsage()
 	{
 		return 8*4 + vertc*4*4;
 	}
 
-	public void dragStart(final int x, final int y)
+	public void dragStart(float x, float y)
 	{
-		queueEvent(new Runnable() {
+		queueEvent(new Runnable()
+		{
 			@Override
-        	public void run() {
-				addPoint((float) x, (float) y, 0.0f); /* prev */
-				addPoint((float) x, (float) y, 0.0f); /* cur */
+			public void run()
+			{
+				addPoint(x, y, 0.0f); /* prev */
+				addPoint(x, y, 0.0f); /* cur */
 				vertc += 4;
-        	}
-        });
+			}
+		});
 	}
 
-	public void move(final int x, final int y)
+	public void move(float x, float y)
 	{
-		queueEvent(new Runnable() {
+		queueEvent(new Runnable()
+		{
 			@Override
-    		public void run() {
-				setCursor((float) x, (float) y);
-    		}
-    	});
+			public void run()
+			{
+				setCursor(x, y);
+			}
+		});
 		requestRender();
 	}
 
-	public void drag(final int x, final int y, final int pressure)
+	public void drag(float x, float y, float pressure)
 	{
-		queueEvent(new Runnable() {
+		queueEvent(new Runnable()
+		{
 			@Override
-    		public void run() {
-				addPoint((float) x, (float) y, (float) pressure); /* cur */
-				addPoint((float) x, (float) y, (float) pressure); /* next */
+			public void run()
+			{
+				addPoint(x, y, pressure); /* cur */
+				addPoint(x, y, pressure); /* next */
 				bufi -= 8; /* modify cur */
 				vertc += 2;
-    		}
-    	});
+			}
+		});
 		requestRender();
 	}
 
-	public void dragStop(final int x, final int y)
+	public void dragStop(float x, float y)
 	{
-		queueEvent(new Runnable() {
+		queueEvent(new Runnable()
+		{
 			@Override
-        	public void run() {
-				addPoint((float) x, (float) y, 0.0f);
-				addPoint((float) x, (float) y, 0.0f);
+			public void run()
+			{
+				addPoint(x, y, 0.0f);
+				addPoint(x, y, 0.0f);
 				vertc += 4;
-        	}
-        });
+			}
+		});
 		requestRender();
 	}
 
@@ -142,7 +145,7 @@ public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Rendere
 		b_array = buffers[0];
 		glBindBuffer(GL_ARRAY_BUFFER, b_array);
 		glBufferData(GL_ARRAY_BUFFER, 4*8+MAX_MEMORY_RATE, null, GL_DYNAMIC_DRAW); /* + cursor square at very beginning */
-		
+
 		/* .-= SHADERS =-. */
 		try
 		{
@@ -184,8 +187,6 @@ public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Rendere
 		// u_surface = glGetUniformLocation(p_cursor, "surface"); /* @IMPORTANT get location only after linking! */
 		// u_pos = glGetUniformLocation(p_cursor, "pos");
 
-		/* .-= SURFACE SETTINGS =-.*/
-		// setEnvironment(15200f, 9500f, 2048f);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
@@ -212,9 +213,6 @@ public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Rendere
 	public void onSurfaceChanged(GL10 unused, int width, int height)
 	{
 		glViewport(0, 0, width, height);
-		// glUseProgram(p_cursor);  /* @IMPORTANT uniform loading requires program in use */
-		// glUniform2f(u_surface, (float) width, (float) height);
-		Log.e("ajournal-debug", String.format("Surface size: %dx%d, err(%d)", width, height, glGetError()));
 	}
 
 	private void addPoint(float x, float y, float z)
@@ -239,14 +237,14 @@ public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Rendere
 	{
 		cursq.clear();
 		/* FIXME remove constants !!! */
-		cursq.put(x-50f);
-		cursq.put(y-50f);
-		cursq.put(x+50f);
-		cursq.put(y+50f);
-		cursq.put(x-50f);
-		cursq.put(y+50f);
-		cursq.put(x+50f);
-		cursq.put(y-50f);
+		cursq.put(x-0.1f);
+		cursq.put(y-0.1f);
+		cursq.put(x+0.1f);
+		cursq.put(y+0.1f);
+		cursq.put(x-0.1f);
+		cursq.put(y+0.1f);
+		cursq.put(x+0.1f);
+		cursq.put(y-0.1f);
 		cursq.flip();
 		glBufferSubData(GL_ARRAY_BUFFER, 0, 4*8, cursq);
 		glUseProgram(p_cursor);
@@ -274,7 +272,7 @@ public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Rendere
 			return id;
 		}
 	}
-	
+
 	private boolean compileError(int shader)
 	{
 		int[] success = new int[1];
@@ -293,11 +291,7 @@ public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Rendere
 		}
 		stream.close();
 
-		/* bruh */
-		return sourcecode.toString()
-			.replace("${WACOM_WIDTH}", String.valueOf(WACOM_WIDTH))
-			.replace("${WACOM_HEIGHT}", String.valueOf(WACOM_HEIGHT))
-			.replace("${WACOM_SENSITIVITY}", String.valueOf(WACOM_SENSITIVITY));
+		return sourcecode.toString();
 	}
 
 	public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display)
