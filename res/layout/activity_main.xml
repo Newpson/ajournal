@@ -6,35 +6,43 @@
 	android:orientation="vertical"
 	android:keepScreenOn="true">
 
-	<LinearLayout
+	<HorizontalScrollView
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal">
+		android:layout_height="wrap_content">
 
-		<TextView
-			android:id="@+id/out_log"
+		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="There is no output." />
+			android:orientation="horizontal"
+			android:gravity="center_vertical">
+	
+			<TextView
+				android:id="@+id/out_log"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="There is no output." />
+	
+			<Button
+				android:id="@+id/in_stop"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Stop" />
+	
+			<ToggleButton
+				android:id="@+id/in_hide"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textOn="Hide cursor"
+				android:textOff="Hide cursor" />
 
-		<Button
-			android:id="@+id/in_stop"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Stop" />
-
-		<ToggleButton
-			android:id="@+id/in_hide"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textOn="Hide cursor"
-			android:textOff="Hide cursor" />
-
-	</LinearLayout>
+		</LinearLayout>
+	
+	</HorizontalScrollView>
 
 	<newpson.ajournal.WacomSurface
 		android:id="@+id/out_surface"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent" />
 
+	
 </LinearLayout>

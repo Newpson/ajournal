@@ -1,18 +1,16 @@
+include sdk.mk
+
 SRC := src
 BUILD ?= build
 RES := res
 ASSETS := assets
-ANDROID ?= /opt/android-tools/sdk/platforms/android-28/android.jar
-KEYS ?= $(HOME)/.android/$(USER).keystore
 
-BUILD_TOOLS ?= /opt/android-tools/sdk/build-tools/25.0.0
-DX := $(BUILD_TOOLS)/dx
+D8 := $(BUILD_TOOLS)/d8
 AAPT := $(BUILD_TOOLS)/aapt
 SIGNER := $(BUILD_TOOLS)/apksigner
 ALIGNER := $(BUILD_TOOLS)/zipalign
 
-JAVAC := javac
-JAVAC_FLAGS := -d $(BUILD) -source 1.7 -target 1.7 -sourcepath $(SRC) -classpath $(BUILD) -bootclasspath $(ANDROID)
+JAVAC_FLAGS := -d $(BUILD) -classpath $(ANDROID) -sourcepath $(SRC)
 APP := ajournal
 PACKAGE := newpson/$(APP)
 
@@ -33,7 +31,7 @@ $(APP)-unaligned.apk: classes.dex
 	$(AAPT) add $@ $<
 
 classes.dex: $(BUILD)/$(PACKAGE)/R.class $(OBJECTS)
-	$(DX) --dex --output=$@ $(BUILD)
+	$(D8) --lib $(ANDROID) $(BUILD)/$(PACKAGE)/*.class
 
 $(SRC)/$(PACKAGE)/R.java: AndroidManifest.xml
 	$(AAPT) package -f -m -J $(SRC) -S $(RES) -M $< -I $(ANDROID)
@@ -45,5 +43,4 @@ check:
 clean:
 	rm -f $(SRC)/$(PACKAGE)/R.java
 	rm -rf $(BUILD)/*
-	rm -f classes.dex $(APP)*.apk
-
+	rm -f *.dex $(APP)*.apk*
