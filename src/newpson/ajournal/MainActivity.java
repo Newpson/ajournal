@@ -7,12 +7,8 @@ import android.os.Message;
 import android.os.Looper;
 
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ToggleButton;
+import android.widget.ImageButton;
+import android.widget.HorizontalScrollView;
 
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
@@ -22,16 +18,13 @@ import android.content.Intent;
 import newpson.ajournal.WacomManager;
 import newpson.ajournal.WacomSurface;
 
-import android.util.Log;
-
-public class MainActivity extends Activity implements View.OnClickListener, OnCheckedChangeListener
+public class MainActivity extends Activity implements View.OnClickListener
 {
-	private TextView log;
-	private Button stop;
-	private ToggleButton hide;
 	private Handler dataHandler;
 	private WacomManager wacomManager;
 	private WacomSurface surface;
+	private HorizontalScrollView toolbar;
+	private ImageButton fold;
 
 	/* FIXME move from MainActivity */
 	private final int wacomIds[][] = new int[][] {{1386, 890}};
@@ -42,14 +35,11 @@ public class MainActivity extends Activity implements View.OnClickListener, OnCh
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		log = (TextView) findViewById(R.id.out_log);
-		stop = (Button) findViewById(R.id.in_stop);
-		hide = (ToggleButton) findViewById(R.id.in_hide);
-		stop.setOnClickListener(this);
-		hide.setOnCheckedChangeListener(this);
-		surface = (WacomSurface) findViewById(R.id.out_surface);
+		surface = (WacomSurface) findViewById(R.id.wacomSurface);
 
-		/* FIXME move constants from MainActivity */
+		toolbar = (HorizontalScrollView) findViewById(R.id.toolbar);
+		fold = (ImageButton) findViewById(R.id.button_fold);
+		fold.setOnClickListener(this);
 
 		dataHandler = new Handler(Looper.getMainLooper())
 		{
@@ -87,27 +77,22 @@ public class MainActivity extends Activity implements View.OnClickListener, OnCh
 								drag = false;
 								usage = surface.getMemoryUsage();
 								surface.dragStop(data[WacomManager.DATA_X], data[WacomManager.DATA_Y]);
-								log.setText(String.format("Buffer memory usage: %d B (%d%%)", usage, usage*100/WacomSurface.MAX_MEMORY_RATE));
 							}
 						}
 						break;
 					case WacomManager.PERMISSION_GRANTED:
-						log.setText("Permission granted. Opening device...");
 						wacomManager.deviceAttach();
 						break;
 					case WacomManager.DEVICE_READY:
-						log.setText("Listening...");
 						wacomManager.listen();
 						break;
 					case WacomManager.DEVICE_BROKEN:
-						log.setText("Can't attach device.");
 						break;
 					case WacomManager.PERMISSION_DENIED:
-						log.setText("Device usage permission denied.");
 						break;
 					case WacomManager.DEVICE_CLOSED:
-						log.setText("Device closed.");
 						break;
+
 				}
 			}
 		};
@@ -121,13 +106,11 @@ public class MainActivity extends Activity implements View.OnClickListener, OnCh
 	@Override
 	public void onClick(View v)
 	{
-		wacomManager.stop();
+		int id = v.getId();
+		if (id == R.id.button_fold)
+		{
+			toolbar.setVisibility(toolbar.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+		}
 	}
-	 @Override
-	 public void onCheckedChanged(CompoundButton button, boolean checked)
-	 {
-		 surface.hideCursor(checked);
-	 }
-
 }
 

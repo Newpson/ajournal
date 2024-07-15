@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="section_document">Документ</string>
+	<string name="document_new">Создать</string>
+	<string name="document_save">Сохранить</string>
+	<string name="document_open">Открыть</string>
+	<string name="document_export">Экспорт</string>
+
+	<string name="section_tools">Инструменты</string>
+
+	<string name="section_line">Линия</string>
+	<string name="line_sensitivity">Сила нажатия</string>
+	<string name="line_thickness">Толщина</string>
+	<string name="line_color">Цвет</string>
+
+	<string name="section_page">Страница</string>
+</resources>

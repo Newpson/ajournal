@@ -1,48 +1,336 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:orientation="vertical"
 	android:keepScreenOn="true">
 
-	<HorizontalScrollView
+	<ImageButton
+		android:id="@+id/button_fold"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-
-		<LinearLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:gravity="center_vertical">
-	
-			<TextView
-				android:id="@+id/out_log"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="There is no output." />
-	
-			<Button
-				android:id="@+id/in_stop"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Stop" />
-	
-			<ToggleButton
-				android:id="@+id/in_hide"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textOn="Hide cursor"
-				android:textOff="Hide cursor" />
-
-		</LinearLayout>
-	
-	</HorizontalScrollView>
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:scaleType="fitXY"
+		android:src="@drawable/rough" />
 
 	<newpson.ajournal.WacomSurface
-		android:id="@+id/out_surface"
+		android:id="@+id/wacomSurface"
+		android:layout_below="@id/button_fold"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent" />
 
-	
-</LinearLayout>
+	<HorizontalScrollView
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:layout_below="@id/button_fold"
+		android:background="?android:colorBackground"
+		android:scrollbars="none">
+
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:orientation="vertical">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content">
+
+					<Button
+						android:id="@+id/button_new"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:drawableTop="@drawable/file40"
+						android:text="@string/document_new" />
+
+					<Button
+						android:id="@+id/button_save"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:drawableTop="@drawable/floppy40"
+						android:text="@string/document_save" />
+
+					<Button
+						android:id="@+id/button_open"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:drawableTop="@drawable/folder40"
+						android:text="@string/document_open" />
+
+					<Button
+						android:id="@+id/button_export"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:drawableTop="@drawable/export40"
+						android:text="@string/document_export" />
+
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_marginBottom="5dp"
+					android:gravity="bottom|center_horizontal"
+					android:text="@string/section_document" />
+
+			</LinearLayout>
+
+			<View
+				android:layout_width="3dp"
+				android:layout_height="match_parent"
+				android:layout_marginVertical="10dp"
+				android:layout_marginHorizontal="5dp"
+				android:background="?android:attr/listDivider" />
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent">
+
+					<ImageButton
+						android:id="@+id/button_pencil"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:src="@drawable/pencil20" />
+
+					<ImageButton
+						android:id="@+id/button_eraser"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:src="@drawable/eraser20" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content">
+
+					<ImageButton
+						android:id="@+id/button_pick"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:src="@drawable/pick20" />
+
+					<ImageButton
+						android:id="@+id/button_cut"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:src="@drawable/shears20" />
+
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_marginBottom="5dp"
+					android:layout_marginHorizontal="20dp"
+					android:gravity="bottom|center_horizontal"
+					android:text="@string/section_tools" />
+
+			</LinearLayout>
+
+			<View
+				android:layout_width="3dp"
+				android:layout_height="match_parent"
+				android:layout_marginVertical="10dp"
+				android:layout_marginHorizontal="5dp"
+				android:background="?android:attr/listDivider" />
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:gravity="center_horizontal"
+				android:orientation="vertical">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content">
+
+					<ImageButton
+						android:id="@+id/button_straight"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:src="@drawable/line20" />
+
+					<ImageButton
+						android:id="@+id/button_freehand"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:src="@drawable/curve20" />
+
+				</LinearLayout>
+
+				<CheckBox
+					android:id="@+id/checkbox_pressure"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/line_sensitivity"/>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_marginBottom="5dp"
+					android:gravity="bottom|center_horizontal"
+					android:text="@string/section_line" />
+
+			</LinearLayout>
+
+			<View
+				android:layout_width="3dp"
+				android:layout_height="match_parent"
+				android:layout_marginVertical="10dp"
+				android:layout_marginHorizontal="5dp"
+				android:background="?android:attr/listDivider" />
+
+			<Button
+				android:id="@+id/button_thickness"
+				style="?android:attr/borderlessButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:drawableTop="@drawable/thickness40"
+				android:text="@string/line_thickness"/>
+
+			<View
+				android:layout_width="3dp"
+				android:layout_height="match_parent"
+				android:layout_marginVertical="10dp"
+				android:layout_marginHorizontal="5dp"
+				android:background="?android:attr/listDivider" />
+
+			<Button
+				android:id="@+id/button_color"
+				style="?android:attr/borderlessButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:drawableTop="@drawable/colors40"
+				android:text="@string/line_color"/>
+
+			<View
+				android:layout_width="3dp"
+				android:layout_height="match_parent"
+				android:layout_marginVertical="10dp"
+				android:layout_marginHorizontal="5dp"
+				android:background="?android:attr/listDivider" />
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:orientation="vertical">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical">
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:orientation="vertical">
+
+						<ImageButton
+							android:id="@+id/button_pageUp"
+							style="?android:attr/borderlessButtonStyle"
+							android:layout_width="40dp"
+							android:layout_height="30dp"
+							android:src="@drawable/up" />
+
+						<ImageButton
+							android:id="@+id/button_pageDown"
+							style="?android:attr/borderlessButtonStyle"
+							android:layout_width="40dp"
+							android:layout_height="30dp"
+							android:src="@drawable/down" />
+					</LinearLayout>
+
+					<EditText
+						android:id="@+id/edittext_page"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:inputType="numberDecimal"
+						android:gravity="end"
+						android:maxLength="4"
+						android:ems="2"/>
+
+					<ImageButton
+						android:id="@+id/button_pageGoto"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:src="@drawable/magnifier20" />
+
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_marginBottom="5dp"
+					android:gravity="bottom|center_horizontal"
+					android:text="@string/section_page" />
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:orientation="vertical">
+
+					<ImageButton
+						android:id="@+id/button_pageNew"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="40dp"
+						android:layout_height="30dp"
+						android:src="@drawable/file20" />
+
+					<ImageButton
+						android:id="@+id/button_pageDelete"
+						style="?android:attr/borderlessButtonStyle"
+						android:layout_width="40dp"
+						android:layout_height="30dp"
+						android:src="@drawable/timesfile20" />
+
+				</LinearLayout>
+
+				<View
+					android:layout_width="3dp"
+					android:layout_height="match_parent"
+					android:layout_marginVertical="10dp"
+					android:layout_marginHorizontal="5dp"
+					android:background="?android:attr/listDivider" />
+
+				<ImageButton
+					android:id="@+id/button_pageClear"
+					style="?android:attr/borderlessButtonStyle"
+					android:layout_width="40dp"
+					android:layout_height="40dp"
+					android:src="@drawable/timesimage20" />
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</HorizontalScrollView>
+
+</RelativeLayout>

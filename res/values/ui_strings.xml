@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="section_document">Document</string>
+	<string name="document_new">New</string>
+	<string name="document_save">Save</string>
+	<string name="document_open">Open</string>
+	<string name="document_export">Export</string>
+
+	<string name="section_tools">Tools</string>
+
+	<string name="section_line">Line</string>
+	<string name="line_sensitivity">Pressure</string>
+	<string name="line_thickness">Thickness</string>
+	<string name="line_color">Color</string>
+
+	<string name="section_page">Page</string>
+</resources>
