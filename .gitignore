@@ -1,4 +1,4 @@
 build/*
 *.dex
-*.apk
+*.apk*
 R.java
