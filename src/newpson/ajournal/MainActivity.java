@@ -17,6 +17,7 @@ import android.content.Intent;
 
 import newpson.ajournal.WacomManager;
 import newpson.ajournal.AJSurface;
+import android.util.Log;
 
 public class MainActivity extends Activity implements View.OnClickListener
 {
@@ -44,8 +45,10 @@ public class MainActivity extends Activity implements View.OnClickListener
 		dataHandler = new Handler(Looper.getMainLooper())
 		{
 			private int[] data;
-			private int usage;
 			private boolean drag = false;
+			float x;
+			float y;
+			float p;
 			@Override
 			public void handleMessage(Message message)
 			{
@@ -57,17 +60,20 @@ public class MainActivity extends Activity implements View.OnClickListener
 						{
 							break;
 						}
-						surface.move(data[WacomManager.DATA_X], data[WacomManager.DATA_Y]);
+						x = data[WacomManager.DATA_X] / 15200.0f * surface.getWidth();
+						y = data[WacomManager.DATA_Y] / 9500.0f * surface.getHeight();
+						p = (float) data[WacomManager.DATA_PRESSURE] / 2048.0f * 10.0f;
+						surface.move(x, y);
 						if (data[WacomManager.DATA_TIP] > 0)
 						{
 							if (drag)
 							{
-								surface.drag(data[WacomManager.DATA_X], data[WacomManager.DATA_Y], data[WacomManager.DATA_PRESSURE]);
+								surface.drag(x, y, p);
 							}
 							else
 							{
 								drag = true;
-								surface.dragStart(data[WacomManager.DATA_X], data[WacomManager.DATA_Y]);
+								surface.dragStart(x, y);
 							}
 						}
 						else
@@ -75,8 +81,7 @@ public class MainActivity extends Activity implements View.OnClickListener
 							if (drag)
 							{
 								drag = false;
-								usage = surface.getMemoryUsage();
-								surface.dragStop(data[WacomManager.DATA_X], data[WacomManager.DATA_Y]);
+								surface.dragStop(x, y);
 							}
 						}
 						break;
