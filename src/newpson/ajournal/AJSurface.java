@@ -22,7 +22,7 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 
 /* @WARN OpenGL ES 3.0 is required because of GL_PRIMITIVE_RESTART_FIXED_INDEX */
-public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Renderer, GLSurfaceView.EGLConfigChooser
+public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, GLSurfaceView.EGLConfigChooser
 {
 	// public static final int MAX_MEMORY_RATE = 65536; /* 65 KB too few because of high stroke resolution */ 
 	public static final int MAX_MEMORY_RATE = 1572864; /* 1.5 MB is OK */
@@ -62,7 +62,7 @@ public class WacomSurface extends GLSurfaceView implements GLSurfaceView.Rendere
 	private int bufi = 0;
 	private int vertc = 0;
 	
-    public WacomSurface(Context context, AttributeSet attrs)
+    public AJSurface(Context context, AttributeSet attrs)
     {
 		super(context, attrs);
 

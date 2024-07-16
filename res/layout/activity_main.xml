@@ -12,8 +12,8 @@
 		android:scaleType="fitXY"
 		android:src="@drawable/rough" />
 
-	<newpson.ajournal.WacomSurface
-		android:id="@+id/wacomSurface"
+	<newpson.ajournal.AJSurface
+		android:id="@+id/surface"
 		android:layout_below="@id/button_fold"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent" />

@@ -16,13 +16,13 @@ import android.hardware.usb.UsbManager;
 import android.content.Intent;
 
 import newpson.ajournal.WacomManager;
-import newpson.ajournal.WacomSurface;
+import newpson.ajournal.AJSurface;
 
 public class MainActivity extends Activity implements View.OnClickListener
 {
 	private Handler dataHandler;
 	private WacomManager wacomManager;
-	private WacomSurface surface;
+	private AJSurface surface;
 	private HorizontalScrollView toolbar;
 	private ImageButton fold;
 
@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements View.OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		surface = (WacomSurface) findViewById(R.id.wacomSurface);
+		surface = (AJSurface) findViewById(R.id.surface);
 
 		toolbar = (HorizontalScrollView) findViewById(R.id.toolbar);
 		fold = (ImageButton) findViewById(R.id.button_fold);
