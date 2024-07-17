@@ -29,6 +29,7 @@ public class MainActivity extends Activity implements View.OnClickListener
 	private AJSurface surface;
 	private HorizontalScrollView toolbar;
 	private ImageButton buttonFold;
+	private ImageButton buttonPageClear;
 	private Button buttonColor;
 
 	/* FIXME move from MainActivity */
@@ -45,6 +46,9 @@ public class MainActivity extends Activity implements View.OnClickListener
 		toolbar = (HorizontalScrollView) findViewById(R.id.toolbar);
 		buttonFold = (ImageButton) findViewById(R.id.button_fold);
 		buttonFold.setOnClickListener(this);
+
+		buttonPageClear = (ImageButton) findViewById(R.id.button_pageClear);
+		buttonPageClear.setOnClickListener(this);
 
 		buttonColor = (Button) findViewById(R.id.button_color);
 		buttonColor.setOnClickListener(this);
@@ -122,6 +126,10 @@ public class MainActivity extends Activity implements View.OnClickListener
 		if (id == R.id.button_fold)
 		{
 			toolbar.setVisibility(toolbar.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+		}
+		else if (id == R.id.button_pageClear)
+		{
+			surface.clear();
 		}
 		else if (id == R.id.button_color)
 		{

@@ -96,11 +96,6 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 	}
 
-	public int getMemoryUsage()
-	{
-		return 8*Float.BYTES + vertc*4*Float.BYTES;
-	}
-
 	public void dragStart(float x, float y)
 	{
 		queueEvent(new Runnable()
@@ -245,6 +240,13 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 	public void setColor(float color)
 	{
 		this.color = color;
+	}
+
+	public void clear()
+	{
+		vertc = 0;
+		bufi = 0;
+		requestRender();
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height)
