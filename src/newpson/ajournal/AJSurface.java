@@ -21,11 +21,23 @@ import java.nio.FloatBuffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
+import java.util.Random;
 
 public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, GLSurfaceView.EGLConfigChooser
 {
 	public static final int MAX_MEMORY_RATE = 1572864; /* 1.5 MB is OK */
+	public static final float COLOR_BLUE = 1.0f;
+	public static final float COLOR_ORANGE = 2.0f;
+	public static final float COLOR_RED = 3.0f;
+	public static final float COLOR_CYAN = 4.0f;
+	public static final float COLOR_GREEN = 5.0f;
+	public static final float COLOR_YELLOW = 6.0f;
+	public static final float COLOR_PURPLE = 7.0f;
+	public static final float COLOR_PINK = 8.0f;
+	public static final float COLOR_BROWN = 9.0f;
+	public static final float COLOR_GRAY = 10.0f;
 	private boolean showCursor = true;
+	private float color = COLOR_BLUE;
 
 	/**
 	 * sv_ - vertex shader
@@ -46,6 +58,7 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 	private int b_array;
 
 	private int u_stroke_projectionM;
+	private int u_stroke_colors;
 	private int u_cursor_projectionM;
 
 	private int a_pos = 0; /* manual indexing is important !!! 4 hours, my dudes ... */
@@ -57,7 +70,21 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 	private int vertc = 0;
 	float[] update = new float[4*2];
 	float[] cursq = new float[2*4]; /* cursor square */
+	float[] colors = new float[]
+	{ /* Tableau 10 palette */
+		0.306f, 0.475f, 0.655f, 1.0f, /* blue */
+		0.949f, 0.557f, 0.169f, 1.0f, /* orange */
+		0.882f, 0.341f, 0.349f, 1.0f, /* red */
+		0.463f, 0.718f, 0.698f, 1.0f, /* cyan */
+		0.349f, 0.631f, 0.310f, 1.0f, /* green */
+		0.929f, 0.788f, 0.282f, 1.0f, /* yellow */
+		0.690f, 0.478f, 0.631f, 1.0f, /* purple */
+		1.000f, 0.616f, 0.655f, 1.0f, /* pink */
+		0.612f, 0.459f, 0.373f, 1.0f, /* brown */
+		0.729f, 0.690f, 0.675f, 1.0f, /* gray */
+	};
 	private float[] projectionM = new float[16];
+	private Random random = new Random();
 
 	public AJSurface(Context context, AttributeSet attrs)
 	{
@@ -175,6 +202,10 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 		glLinkProgram(p_stroke);
 
 		u_stroke_projectionM = glGetUniformLocation(p_stroke, "projectionM"); /* get location only after linking! */
+		u_stroke_colors = glGetUniformLocation(p_stroke, "colors");
+
+		glUseProgram(p_stroke);
+		glUniform4fv(u_stroke_colors, 10, colors, 0);
 
 		/* .-= CURSOR PROGRAM =-. */
 		p_cursor = glCreateProgram();
@@ -211,6 +242,11 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 		requestRender();
 	}
 
+	public void setColor(float color)
+	{
+		this.color = color;
+	}
+
 	public void onSurfaceChanged(GL10 gl, int width, int height)
 	{
 		glViewport(0, 0, width, height);
@@ -223,7 +259,7 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 
 	private void addPoint(float x, float y, float z)
 	{
-		float sign = bufi%3 == 0 ? 1.0f : -1.0f;
+		float sign = (bufi%3 == 0 ? 1.0f : -1.0f) * color;
 		update[0] = update[4] = x;
 		update[1] = update[5] = y;
 		update[2] = update[6] = z;

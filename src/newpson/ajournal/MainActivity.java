@@ -7,6 +7,9 @@ import android.os.Message;
 import android.os.Looper;
 
 import android.view.View;
+import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.ImageButton;
 import android.widget.HorizontalScrollView;
 
@@ -25,7 +28,8 @@ public class MainActivity extends Activity implements View.OnClickListener
 	private WacomManager wacomManager;
 	private AJSurface surface;
 	private HorizontalScrollView toolbar;
-	private ImageButton fold;
+	private ImageButton buttonFold;
+	private Button buttonColor;
 
 	/* FIXME move from MainActivity */
 	private final int wacomIds[][] = new int[][] {{1386, 890}};
@@ -39,8 +43,11 @@ public class MainActivity extends Activity implements View.OnClickListener
 		surface = (AJSurface) findViewById(R.id.surface);
 
 		toolbar = (HorizontalScrollView) findViewById(R.id.toolbar);
-		fold = (ImageButton) findViewById(R.id.button_fold);
-		fold.setOnClickListener(this);
+		buttonFold = (ImageButton) findViewById(R.id.button_fold);
+		buttonFold.setOnClickListener(this);
+
+		buttonColor = (Button) findViewById(R.id.button_color);
+		buttonColor.setOnClickListener(this);
 
 		dataHandler = new Handler(Looper.getMainLooper())
 		{
@@ -115,6 +122,63 @@ public class MainActivity extends Activity implements View.OnClickListener
 		if (id == R.id.button_fold)
 		{
 			toolbar.setVisibility(toolbar.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+		}
+		else if (id == R.id.button_color)
+		{
+			PopupMenu menu = new PopupMenu(this, buttonColor);
+			menu.getMenuInflater().inflate(R.menu.popup_colors, menu.getMenu());
+			menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+			{
+				@Override
+				public boolean onMenuItemClick(MenuItem menuItem)
+				{
+					/* bruh code */
+					int id2 = menuItem.getItemId();
+					if (id2 == R.id.popup_color_blue)
+					{
+						surface.setColor(AJSurface.COLOR_BLUE);
+					}
+					else if (id2 == R.id.popup_color_orange)
+					{
+						surface.setColor(AJSurface.COLOR_ORANGE);
+					}
+					else if (id2 == R.id.popup_color_red)
+					{
+						surface.setColor(AJSurface.COLOR_RED);
+					}
+					else if (id2 == R.id.popup_color_cyan)
+					{
+						surface.setColor(AJSurface.COLOR_CYAN);
+					}
+					else if (id2 == R.id.popup_color_green)
+					{
+						surface.setColor(AJSurface.COLOR_GREEN);
+					}
+					else if (id2 == R.id.popup_color_yellow)
+					{
+						surface.setColor(AJSurface.COLOR_YELLOW);
+					}
+					else if (id2 == R.id.popup_color_purple)
+					{
+						surface.setColor(AJSurface.COLOR_PURPLE);
+					}
+					else if (id2 == R.id.popup_color_pink)
+					{
+						surface.setColor(AJSurface.COLOR_PINK);
+					}
+					else if (id2 == R.id.popup_color_brown)
+					{
+						surface.setColor(AJSurface.COLOR_BROWN);
+					}
+					else if (id2 == R.id.popup_color_gray)
+					{
+						surface.setColor(AJSurface.COLOR_GRAY);
+					}
+					return true;
+				}
+			});
+
+			menu.show();
 		}
 	}
 }
