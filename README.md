@@ -1,8 +1,18 @@
 ![feather](https://github.com/user-attachments/assets/164f8bc4-904e-48ba-8dfe-6e40992b6264)
 
+
 ## About
 It is a simple and lightweight drawing application that supports input from external devices such as graphics tablets.
 Classic touch input with pressure emulation is also implemented (currently in separate `driverless` branch).
+
+<img src="https://github.com/user-attachments/assets/11baad4b-e75e-4caa-bc04-38dd9c04713b" height="384"/>
+<img src="https://github.com/user-attachments/assets/1f879328-36a4-4edf-9231-7c96020b8da9" height="384"/>  
+
+*Android 5.0.1*
+
+<img src="https://github.com/user-attachments/assets/a09d3fb8-6a58-4087-95d9-5ffcc032c53e" alt="drawing" width="384"/>
+
+*Android 4.2*
 
 ## System requirements
 The application stack was selected in such a way that it works even on very old devices with Android 3.1 (the minimum version that supports both OpenGL ES 2.0 and Usb OTG connection).
