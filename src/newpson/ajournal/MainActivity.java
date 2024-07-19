@@ -9,6 +9,8 @@ import android.os.Looper;
 import android.view.View;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.PopupMenu;
 import android.widget.ImageButton;
 import android.widget.HorizontalScrollView;
@@ -22,7 +24,7 @@ import newpson.ajournal.WacomManager;
 import newpson.ajournal.AJSurface;
 import android.util.Log;
 
-public class MainActivity extends Activity implements View.OnClickListener
+public class MainActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener
 {
 	private Handler dataHandler;
 	private WacomManager wacomManager;
@@ -30,7 +32,11 @@ public class MainActivity extends Activity implements View.OnClickListener
 	private HorizontalScrollView toolbar;
 	private ImageButton buttonFold;
 	private ImageButton buttonPageClear;
+	private ImageButton buttonStraight;
+	private ImageButton buttonFreehand;
 	private Button buttonColor;
+	private Button buttonThickness;
+	private CheckBox checkboxPressure;
 
 	/* FIXME move from MainActivity */
 	private final int wacomIds[][] = new int[][] {{1386, 890}};
@@ -50,8 +56,20 @@ public class MainActivity extends Activity implements View.OnClickListener
 		buttonPageClear = (ImageButton) findViewById(R.id.button_pageClear);
 		buttonPageClear.setOnClickListener(this);
 
+		buttonStraight = (ImageButton) findViewById(R.id.button_straight);
+		buttonStraight.setOnClickListener(this);
+
+		buttonFreehand = (ImageButton) findViewById(R.id.button_freehand);
+		buttonFreehand.setOnClickListener(this);
+
 		buttonColor = (Button) findViewById(R.id.button_color);
 		buttonColor.setOnClickListener(this);
+
+		buttonThickness = (Button) findViewById(R.id.button_thickness);
+		buttonThickness.setOnClickListener(this);
+
+		checkboxPressure = (CheckBox) findViewById(R.id.checkbox_pressure);
+		checkboxPressure.setOnCheckedChangeListener(this);
 
 		dataHandler = new Handler(Looper.getMainLooper())
 		{
@@ -73,7 +91,7 @@ public class MainActivity extends Activity implements View.OnClickListener
 						}
 						x = data[WacomManager.DATA_X] / 15200.0f * surface.getWidth();
 						y = data[WacomManager.DATA_Y] / 9500.0f * surface.getHeight();
-						p = (float) data[WacomManager.DATA_PRESSURE] / 2048.0f * 10.0f;
+						p = (float) data[WacomManager.DATA_PRESSURE] / 2048.0f;
 						surface.move(x, y);
 						if (data[WacomManager.DATA_TIP] > 0)
 						{
@@ -84,7 +102,7 @@ public class MainActivity extends Activity implements View.OnClickListener
 							else
 							{
 								drag = true;
-								surface.dragStart(x, y);
+								surface.dragStart(x, y, p);
 							}
 						}
 						else
@@ -92,7 +110,7 @@ public class MainActivity extends Activity implements View.OnClickListener
 							if (drag)
 							{
 								drag = false;
-								surface.dragStop(x, y);
+								surface.dragStop(x, y, p);
 							}
 						}
 						break;
@@ -120,6 +138,15 @@ public class MainActivity extends Activity implements View.OnClickListener
 	}
 
 	@Override
+	public void onCheckedChanged(CompoundButton view, boolean checked)
+	{
+		if (view.getId() == R.id.checkbox_pressure)
+		{
+			surface.setPressureFactor(checked ? 1.0f : 0.0f);
+		}
+	}
+
+	@Override
 	public void onClick(View v)
 	{
 		int id = v.getId();
@@ -130,6 +157,14 @@ public class MainActivity extends Activity implements View.OnClickListener
 		else if (id == R.id.button_pageClear)
 		{
 			surface.clear();
+		}
+		else if (id == R.id.button_straight)
+		{
+			surface.setStraight(true);
+		}
+		else if (id == R.id.button_freehand)
+		{
+			surface.setStraight(false);
 		}
 		else if (id == R.id.button_color)
 		{
@@ -181,6 +216,63 @@ public class MainActivity extends Activity implements View.OnClickListener
 					else if (id2 == R.id.popup_color_gray)
 					{
 						surface.setColor(AJSurface.COLOR_GRAY);
+					}
+					return true;
+				}
+			});
+
+			menu.show();
+		}
+		else if (id == R.id.button_thickness)
+		{
+			PopupMenu menu = new PopupMenu(this, buttonThickness);
+			menu.getMenuInflater().inflate(R.menu.popup_thickness, menu.getMenu());
+			menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+			{
+				@Override
+				public boolean onMenuItemClick(MenuItem menuItem)
+				{
+					/* bruh code */
+					int id2 = menuItem.getItemId();
+					if (id2 == R.id.popup_thickness_1px)
+					{
+						surface.setThickness(1.0f);
+					}
+					else if (id2 == R.id.popup_thickness_2px)
+					{
+						surface.setThickness(2.0f);
+					}
+					else if (id2 == R.id.popup_thickness_5px)
+					{
+						surface.setThickness(5.0f);
+					}
+					else if (id2 == R.id.popup_thickness_7px)
+					{
+						surface.setThickness(7.0f);
+					}
+					else if (id2 == R.id.popup_thickness_10px)
+					{
+						surface.setThickness(10.0f);
+					}
+					else if (id2 == R.id.popup_thickness_15px)
+					{
+						surface.setThickness(15.0f);
+					}
+					else if (id2 == R.id.popup_thickness_20px)
+					{
+						surface.setThickness(20.0f);
+					}
+					else if (id2 == R.id.popup_thickness_30px)
+					{
+						surface.setThickness(30.0f);
+					}
+					else if (id2 == R.id.popup_thickness_40px)
+					{
+						surface.setThickness(40.0f);
+					}
+					else if (id2 == R.id.popup_thickness_50px)
+					{
+						surface.setThickness(50.0f);
 					}
 					return true;
 				}

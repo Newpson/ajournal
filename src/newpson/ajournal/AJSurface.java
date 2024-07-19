@@ -37,7 +37,10 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 	public static final float COLOR_BROWN = 9.0f;
 	public static final float COLOR_GRAY = 10.0f;
 	private boolean showCursor = true;
+	private boolean straight = false;
 	private float color = COLOR_BLUE;
+	private float thickness = 10.0f;
+	private float pressureFactor = 0.0f;
 
 	/**
 	 * sv_ - vertex shader
@@ -96,16 +99,30 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 		setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 	}
 
-	public void dragStart(float x, float y)
+	private float radius(float pressure)
+	{
+		return (pressureFactor*pressure + (1.0f-pressureFactor)) * thickness;
+	}
+
+	public void dragStart(float x, float y, float p)
 	{
 		queueEvent(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				addPoint(x, y, 0.0f); /* prev */
-				addPoint(x, y, 0.0f); /* cur */
-				vertc += 4;
+				if (straight)
+				{
+					addPoint(x, y, 0.0f); 
+					addPoint(x, y, thickness);
+					vertc += 8;
+				}
+				else
+				{
+					addPoint(x, y, 0.0f); /* prev */
+					addPoint(x, y, radius(p)); /* cur */
+					vertc += 4;
+				}
 			}
 		});
 	}
@@ -123,32 +140,49 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 		requestRender();
 	}
 
-	public void drag(float x, float y, float pressure)
+	public void drag(float x, float y, float p)
 	{
 		queueEvent(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				addPoint(x, y, pressure); /* cur */
-				addPoint(x, y, pressure); /* next */
-				bufi -= 8; /* modify cur */
-				vertc += 2;
+				if (straight)
+				{
+					addPoint(x, y, thickness);
+					addPoint(x, y, thickness);
+					bufi -= 16;
+				}
+				else
+				{
+					addPoint(x, y, radius(p)); /* cur */
+					addPoint(x, y, radius(p)); /* next */
+					bufi -= 8; /* modify cur */
+					vertc += 2;
+				}
 			}
 		});
 		requestRender();
 	}
 
-	public void dragStop(float x, float y)
+	public void dragStop(float x, float y, float p)
 	{
 		queueEvent(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				addPoint(x, y, 0.0f);
-				addPoint(x, y, 0.0f);
-				vertc += 4;
+				if (straight)
+				{
+					addPoint(x, y, thickness);
+					addPoint(x, y, 0.0f);
+				}
+				else
+				{
+					addPoint(x, y, radius(p));
+					addPoint(x, y, 0.0f);
+					vertc += 4;
+				}
 			}
 		});
 		requestRender();
@@ -240,6 +274,21 @@ public class AJSurface extends GLSurfaceView implements GLSurfaceView.Renderer, 
 	public void setColor(float color)
 	{
 		this.color = color;
+	}
+
+	public void setPressureFactor(float factor)
+	{
+		pressureFactor = factor;
+	}
+
+	public void setThickness(float thickness)
+	{
+		this.thickness = thickness;
+	}
+
+	public void setStraight(boolean straight)
+	{
+		this.straight = straight;
 	}
 
 	public void clear()
