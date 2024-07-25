@@ -5,12 +5,12 @@
 It is a simple and lightweight drawing application that supports input from external devices such as graphics tablets.
 Classic touch input with pressure emulation is also implemented (currently in separate `driverless` branch).
 
-<img src="https://github.com/user-attachments/assets/11baad4b-e75e-4caa-bc04-38dd9c04713b" height="384"/>
-<img src="https://github.com/user-attachments/assets/1f879328-36a4-4edf-9231-7c96020b8da9" height="384"/>  
+<img src="https://github.com/user-attachments/assets/11baad4b-e75e-4caa-bc04-38dd9c04713b" height="128"/>
+<img src="https://github.com/user-attachments/assets/1f879328-36a4-4edf-9231-7c96020b8da9" height="128"/>  
 
 *Android 5.0.1*
 
-<img src="https://github.com/user-attachments/assets/a09d3fb8-6a58-4087-95d9-5ffcc032c53e" alt="drawing" width="384"/>
+<img src="https://github.com/user-attachments/assets/a09d3fb8-6a58-4087-95d9-5ffcc032c53e" alt="drawing" width="128"/>
 
 *Android 4.2*
 
@@ -23,11 +23,12 @@ The maximum graphics buffer size is about 1.5 megabytes.
 - [ ] Clean project architucture
 - [ ] Separate driver and drawing applications (implement IPC for them and make public API to use in another applications)
 - [ ] Support more (than one) wired graphics tablets
-- [x] Pressure affects line width
+- [x] Pressure affects line thickness
 - [x] Lines can be of 10 colors (Tableau palette is currently hardcoded)
 - [x] Surface clearing
 - [x] (testing) Export surface to PNG
-- [x] (testing) Drawing straight lines
+- [x] Drawing straight lines
+- [x] Changing line thickness
 - [ ] Multiple pages (adding new ones, deleting and navigating through existing ones)
 - [ ] Batch PNG export (to PDF?)
 - [ ] Export to vector formats (direct PDF or SVG) (compute shader is required, i.e. OpenGL ES 3.1, i.e. Android 5.0+)
