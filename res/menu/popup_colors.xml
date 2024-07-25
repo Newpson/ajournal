@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<menu xmlns:android="http://schemas.android.com/apk/res/android"> 
+	<item
+		android:id="@+id/popup_color_blue"
+		android:title="Blue" /> 
+	<item
+		android:id="@+id/popup_color_orange"
+		android:title="Orange" /> 
+	<item
+		android:id="@+id/popup_color_red"
+		android:title="Red" /> 
+	<item
+		android:id="@+id/popup_color_cyan"
+		android:title="Cyan" /> 
+	<item
+		android:id="@+id/popup_color_green"
+		android:title="Green" /> 
+	<item
+		android:id="@+id/popup_color_yellow"
+		android:title="Yellow" /> 
+	<item
+		android:id="@+id/popup_color_purple"
+		android:title="Purple" /> 
+	<item
+		android:id="@+id/popup_color_pink"
+		android:title="Pink" /> 
+	<item
+		android:id="@+id/popup_color_brown"
+		android:title="Brown" /> 
+	<item
+		android:id="@+id/popup_color_gray"
+		android:title="Gray" /> 
+</menu>
+

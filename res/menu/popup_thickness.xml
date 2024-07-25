@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<menu xmlns:android="http://schemas.android.com/apk/res/android"> 
+	<item
+		android:id="@+id/popup_thickness_1px"
+		android:title="1 px" /> 
+	<item
+		android:id="@+id/popup_thickness_2px"
+		android:title="2 px" /> 
+	<item
+		android:id="@+id/popup_thickness_5px"
+		android:title="5 px" /> 
+	<item
+		android:id="@+id/popup_thickness_7px"
+		android:title="7 px" /> 
+	<item
+		android:id="@+id/popup_thickness_10px"
+		android:title="10 px" /> 
+	<item
+		android:id="@+id/popup_thickness_15px"
+		android:title="15 px" /> 
+	<item
+		android:id="@+id/popup_thickness_20px"
+		android:title="20 px" /> 
+	<item
+		android:id="@+id/popup_thickness_30px"
+		android:title="30 px" /> 
+	<item
+		android:id="@+id/popup_thickness_40px"
+		android:title="40 px" /> 
+	<item
+		android:id="@+id/popup_thickness_50px"
+		android:title="50 px" /> 
+</menu>
+

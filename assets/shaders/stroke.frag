@@ -1,8 +1,10 @@
 #version 100
 precision mediump float;
 
+uniform vec4 colors[10];
+varying float v_colori;
+
 void main()
 {
-	/* light blue */
-	gl_FragColor = vec4(0.12, 0.51, 0.76, 1.0);
+	gl_FragColor = colors[int(v_colori)-1];
 }
